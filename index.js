@@ -10,10 +10,16 @@ app.get("/api", (req, res) => {
     res.json(data);
 })
 
-app.get("/api/:id", (req, res) => {
-    const character = data.find((c) => c.id === Number(req.params.id));
+app.get("/api/search", (req, res) => {
+    let result = new Set([]);
 
-    res.json(character);
+        for(let key of Object.keys(req.query)) {
+            result.add(data.filter((c) => {
+                return  c[key] == req.query[key];
+            }))
+        }
+
+    res.json(...result)
 })
 
 app.listen(3000, () => {
