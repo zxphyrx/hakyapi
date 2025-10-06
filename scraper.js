@@ -13,12 +13,13 @@ async function scrape() {
     })
   
     async function getData() {
-        await Promise.all(characterLinks.map(async (link) => {
+        await Promise.all(characterLinks.map(async (link, index) => {
             let { data } = await axios.get(`https://haikyuu.fandom.com${link}`);
             let $ = cheerio.load(data);
             let name = $(`[data-source="title"]`).text();
             let characterData = {};
 
+            characterData.id = index + 1;
             characterData.name = name;
 
             $("br").replaceWith("\n");
